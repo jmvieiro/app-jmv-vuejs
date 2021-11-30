@@ -1,60 +1,62 @@
 <template>
   <v-app>
-    <v-app-bar
-      app
-      color="primary"
-      dark
-    >
-      <div class="d-flex align-center">
-        <v-img
-          alt="Vuetify Logo"
-          class="shrink mr-2"
-          contain
-          src="https://cdn.vuetifyjs.com/images/logos/vuetify-logo-dark.png"
-          transition="scale-transition"
-          width="40"
-        />
-
-        <v-img
-          alt="Vuetify Name"
-          class="shrink mt-1 hidden-sm-and-down"
-          contain
-          min-width="100"
-          src="https://cdn.vuetifyjs.com/images/logos/vuetify-name-dark.png"
-          width="100"
-        />
-      </div>
-
-      <v-spacer></v-spacer>
-
-      <v-btn
-        href="https://github.com/vuetifyjs/vuetify/releases/latest"
-        target="_blank"
-        text
-      >
-        <span class="mr-2">Latest Release</span>
-        <v-icon>mdi-open-in-new</v-icon>
-      </v-btn>
-    </v-app-bar>
-
     <v-main>
-      <HelloWorld/>
+      <Navbar />
+      <v-container class="mt-4">
+        <h2>Desafío 3: App tareas Cli</h2>
+        <v-row>
+          <v-col lg="3">
+            <FormTasks :saveTask="saveTask" />
+          </v-col>
+          <v-col lg="9">
+            <ListTasks :tasks="tasks" :deleteTask="deleteTask" />
+          </v-col>
+        </v-row>
+      </v-container>
     </v-main>
   </v-app>
 </template>
 
 <script>
-import HelloWorld from './components/HelloWorld';
+import Navbar from "./components/Navbar";
+import FormTasks from "./components/FormTasks";
+import ListTasks from "./components/ListTasks";
 
 export default {
-  name: 'App',
+  name: "App",
 
   components: {
-    HelloWorld,
+    Navbar,
+    FormTasks,
+    ListTasks,
   },
 
   data: () => ({
-    //
+    tasks: [],
   }),
+
+  methods: {
+    saveTask(title, description, priority) {
+      const newTask = {
+        id: Date.now(),
+        title: title,
+        description: description,
+        priority: priority,
+      };
+      this.tasks.push(newTask);
+    },
+    deleteTask(index) {
+      this.tasks.splice(index, 1);
+    },
+  },
+  watch: {
+    tasks() {
+      localStorage.setItem("tasks", JSON.stringify(this.tasks));
+    },
+  },
+  mounted() {
+    const itemsLocalStorage = localStorage.getItem("tasks");
+    if (itemsLocalStorage) this.tasks = JSON.parse(itemsLocalStorage);
+  },
 };
 </script>
