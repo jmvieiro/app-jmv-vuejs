@@ -25,34 +25,26 @@
       <v-divider class="mx-4 my-4"></v-divider>
 
       <v-card-actions class="mx-2">
-        <v-btn color="primary lighten-1 mb-2" @click="readTask">
-          Confirmar
-        </v-btn>
+        <v-row>
+          <v-col lg="3">
+            <v-btn color="primary lighten-1 mb-2" @click="readTask">
+              Confirmar
+            </v-btn>
+          </v-col>
+          <v-col lg="9">
+            <v-alert v-if="alert" dense text type="success" class="mb-0">
+              {{ textAlert }}
+            </v-alert>
+          </v-col>
+        </v-row>
       </v-card-actions>
     </v-card>
-    <v-alert v-if="alert" dense text type="success">
-      {{ textAlert }}
-    </v-alert>
   </div>
 </template>
 
 <script>
 export default {
   name: "FormTasks",
-  props: {
-    task: {
-      type: Object,
-      default: () => {},
-    },
-    index: {
-      type: Number,
-      default: 0,
-    },
-    saveTask: {
-      type: Function,
-      default: () => {},
-    },
-  },
   data: () => ({
     alert: false,
     loading: false,
@@ -69,16 +61,16 @@ export default {
       setTimeout(() => {
         this.loading = false;
         this.alert = false;
-        this.$props.saveTask(
-          this.inputTitle,
-          this.inputDescription,
-          this.inputPriority
-        );
+        this.$emit("saveTask", {
+          title: this.inputTitle,
+          description: this.inputDescription,
+          priority: this.inputPriority,
+        });
         this.inputTitle = "";
         this.inputDescription = "";
         this.inputPriority = false;
         this.$refs.title.focus();
-      }, 2000);
+      }, 1000);
     },
   },
 };
