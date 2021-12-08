@@ -32,6 +32,12 @@
             </v-list-item-icon>
             <v-list-item-title> Desafío 3: App tareas Cli</v-list-item-title>
           </v-list-item>
+          <v-list-item @click="showItem(4)">
+            <v-list-item-icon>
+              <v-icon>mdi-calendar-check</v-icon>
+            </v-list-item-icon>
+            <v-list-item-title> Desafío 4: Proyecto Vue/Cli con Formulario</v-list-item-title>
+          </v-list-item>
         </v-list-item-group>
       </v-list>
     </v-navigation-drawer>

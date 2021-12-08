@@ -24,6 +24,17 @@
           </v-col>
         </v-row>
       </v-container>
+      <v-container v-else-if="this.show === 4" class="mt-4">
+        <h2>Desafío 4: Proyecto Vue/Cli con Formulario</h2>
+        <v-row>
+          <v-col cols="12" xs="12" md="4">
+            <FormContact @saveContact="saveContact($event)" />
+          </v-col>
+          <v-col xs="12" md="8">
+            <ListContacts :contacts="contacts" />
+          </v-col>
+        </v-row>
+      </v-container>
     </v-main>
   </v-app>
 </template>
@@ -33,6 +44,8 @@ import Vue from "vue";
 import Navbar from "./components/Navbar";
 import FormTasks from "./components/FormTasks";
 import ListTasks from "./components/ListTasks";
+import ListContacts from "./components/ListContacts";
+import FormContact from "./components/FormContact";
 
 Vue.filter("capitalize", (value) => {
   if (!value) return "";
@@ -45,10 +58,13 @@ export default {
     Navbar,
     FormTasks,
     ListTasks,
+    FormContact,
+    ListContacts,
   },
   data: () => ({
     tasks: [],
-    show: 3,
+    contacts: [],
+    show: 4,
   }),
   methods: {
     showItem(item) {
@@ -83,6 +99,14 @@ export default {
         aux[i].done = aux[i].id === id ? false : aux[i].done;
       }
       this.tasks = aux;
+    },
+    saveContact(data) {
+      const newContact = {
+        id: Date.now(),
+        ...data,
+      };
+      console.log(newContact);
+      this.contacts.push(newContact);
     },
   },
   watch: {
