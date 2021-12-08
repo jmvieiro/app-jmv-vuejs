@@ -33,9 +33,10 @@
           ></v-text-field>
 
           <v-checkbox
-            v-model="inputPriority"
-            id="inputPriority"
-            :label="`Prioritaria`"
+            v-model="model.terms"
+            :rules="termsRules"
+            id="inputTerms"
+            :label="`Términos y condiciones`"
           ></v-checkbox>
         </v-card-text>
 
@@ -72,6 +73,7 @@ export default {
       name: "",
       phone: 0,
       email: "",
+      terms: false,
     },
     titleRules: [
       (v) => !!v || "Nombre es obligatorio.",
@@ -93,6 +95,7 @@ export default {
         (v && v.length <= 10) ||
         "El teléfono no debe contener más de 10 caracteres.",
     ],
+    termsRules: [(v) => !!v || "Tenés que aceptar los términos y condiciones."],
   }),
   methods: {
     validate() {
@@ -109,7 +112,7 @@ export default {
         this.model.name = "";
         this.model.phone = 0;
         this.model.email = "";
-        this.inputPriority = false;
+        this.inputTerms = false;
         this.$refs.name.focus();
       }, 1000);
     },
